@@ -1,5 +1,8 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Suspense } from "react";
+import { headers } from "next/headers";
+import { setTimeout } from "timers/promises";
 
 export default function Home() {
   return (
@@ -44,6 +47,10 @@ export default function Home() {
           >
             Read our docs
           </a>
+
+          <Suspense fallback={<div>Loading...</div>}>
+            <HeadersButton />
+          </Suspense>
         </div>
       </main>
       <footer className={styles.footer}>
@@ -93,3 +100,19 @@ export default function Home() {
     </div>
   );
 }
+
+const HeadersButton = async () => {
+  await setTimeout(1000);
+  const headerStore = await headers();
+  const host = headerStore.get("host");
+  return (
+    <a
+      href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={styles.secondary}
+    >
+      Host: {host}
+    </a>
+  );
+};
