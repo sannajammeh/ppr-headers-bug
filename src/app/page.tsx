@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { Suspense } from "react";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { setTimeout } from "timers/promises";
 
 export default function Home() {
@@ -103,8 +103,11 @@ export default function Home() {
 
 const HeadersButton = async () => {
   await setTimeout(1000);
+  const cookieStore = await cookies();
   const headerStore = await headers();
   const host = headerStore.get("host");
+  const keys = cookieStore.getAll();
+  console.log("🚀 ~ HeadersButton ~ keys:", keys);
   return (
     <a
       href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
